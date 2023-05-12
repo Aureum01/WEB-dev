@@ -1,0 +1,56 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #222;
+}
+
+.scene {
+  perspective: 800px;
+}
+
+.cube {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.side {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  opacity: 0.9;
+}
+
+.front {
+  background-color: crimson;
+  transform: translateZ(100px);
+}
+
+.back {
+  background-color: darkorange;
+  transform: rotateY(180deg) translateZ(100px);
+}
+
+.left {
+  background-color: gold;
+  transform: rotateY(90deg) translateZ(100px);
+}
+
+.right {
+  background-color: limegreen;
+  transform: rotateY(-90deg) translateZ(100px);
+}
+
+.top {
+  background-color: dodgerblue;
+  transform: rotateX(90deg) translateZ(100px);
+}
+
+.bottom {
+  background-color: mediumorchid;
+  transform: rotateX(-90deg) translateZ(100px);
+}
