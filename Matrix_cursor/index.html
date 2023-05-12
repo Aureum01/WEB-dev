@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix Cube</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="scene">
+    <div class="cube">
+      <div class="side front"></div>
+      <div class="side back"></div>
+      <div class="side left"></div>
+      <div class="side right"></div>
+      <div class="side top"></div>
+      <div class="side bottom"></div>
+    </div>
+  </div>
+  
+  <div class="matrix-rain">
+    <span>10 01 01 00 11 00 10 01 11 01</span>
+    <!-- Add more of these elements for a denser rain effect -->
+  </div>
+
+  <input type="file" id="song-input" accept="audio/*" style="position: fixed; bottom: 20px; right: 20px;">
+  
+  <script src="./renderer.js"></script>
+</body>
+</html>
