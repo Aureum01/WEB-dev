@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <style>
+    .modal-newsletter {
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 10px;
+    }
+    .modal-newsletter .modal-header {
+      border-bottom: none;
+    }
+    .modal-newsletter h4 {
+      font-weight: bold;
+    }
+    .modal-newsletter .close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+  </style>
+</head>
+<body>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsletterModal">
+    Subscribe to our newsletter
+  </button>
+  
+  <div class="modal fade" id="newsletterModal" tabindex="-1" role="dialog" aria-labelledby="newsletterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content modal-newsletter">
+        <div class="modal-header">
+          <h4 class="modal-title" id="newsletterModalLabel">Subscribe to our newsletter</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="newsletterForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name:</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <button type="button" id="submitButton" class="btn btn-primary" onclick="submitForm()">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const apiKey = 'API_KEY';
+    const sheetId = 'SHEET_ID';
+    const sheetName = 'SHEET_NAME';
+
+    function submitForm() {
+      const form = document.getElementById('newsletterForm');
+      const name = form.name.value;
+      const email = form.email.value;
+      const date = new Date().toISOString();
+
+      const data = [
+        [name, email, date]
+      ];
+
+      const range = encodeURIComponent(`${sheetName}!A1:C1`);
+      const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS&key=${apiKey}`;
+
+      const xhr = new XMLHttpRequest();
+            xhr.open('POST', apiUrl, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          form.reset();
+          document.getElementById('submitButton').innerText = 'Submitted!';
+          setTimeout(() => {
+            document.getElementById('submitButton').innerText = 'Subscribe';
+            $('#newsletterModal').modal('hide');
+          }, 2000);
+        } else if (xhr.readyState === 4) {
+          console.error(xhr.responseText);
+          alert('Error subscribing. Please try again.');
+        }
+      };
+
+      xhr.send(JSON.stringify({ "values": data }));
+    }
+  </script>
+</body>
+</html>
